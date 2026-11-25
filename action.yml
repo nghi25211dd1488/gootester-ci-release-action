@@ -1,0 +1,54 @@
+name: "GOOtester Android Closed Testing Release Sync"
+description: "Sync signed Android App Bundle (.aab) releases and 14-day human closed testing status with GOOtester (gootester.com) via scoped CI API."
+author: "GOOtester Engineering"
+branding:
+  icon: "check-circle"
+  color: "green"
+
+inputs:
+  api-token:
+    description: "Scoped GOOtester CI API token (scopes: ci:release, ci:read) created in dashboard.gootester.com."
+    required: true
+  app-package:
+    description: "Android applicationId / package name (e.g. com.example.myapp)."
+    required: true
+  version-code:
+    description: "Positive integer Android versionCode uploaded to your Google Play Closed Testing track."
+    required: true
+  version-name:
+    description: "Human-readable Android versionName (e.g. 1.0.2)."
+    required: true
+  campaign-id:
+    description: "Optional GOOtester campaign ID if your account manages multiple campaigns for the same package."
+    required: false
+    default: ""
+  aab-path:
+    description: "Optional path to the built .aab file to compute a deterministic SHA-256 digest for evidence provenance."
+    required: false
+    default: ""
+  release-notes:
+    description: "Optional release changelog summarizing tester feedback resolved in this build."
+    required: false
+    default: ""
+  fetch-status:
+    description: "Query GET /api/v1/ci/status after syncing and write a Markdown summary to GITHUB_STEP_SUMMARY."
+    required: false
+    default: "true"
+  api-origin:
+    description: "GOOtester API origin."
+    required: false
+    default: "https://gootester.com"
+
+outputs:
+  release-id:
+    description: "Recorded GOOtester release lineage ID."
+  aab-sha256:
+    description: "Computed 64-character hex SHA-256 digest of the .aab bundle (if aab-path was provided)."
+  campaign-id:
+    description: "Resolved GOOtester campaign ID."
+  observed-service-days:
+    description: "Observed GOOtester service days reported by /api/v1/ci/status."
+
+runs:
+  using: "node20"
+  main: "dist/index.mjs"
