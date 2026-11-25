@@ -1,5 +1,5 @@
 name: "GOOtester Android Closed Testing Release Sync"
-description: "Sync signed Android App Bundle (.aab) releases and 14-day human closed testing status with GOOtester (gootester.com) via scoped CI API."
+description: "Sync signed Android App Bundle (.aab) SHA-256 provenance and 14-day Google Play Closed Testing status with GOOtester."
 author: "GOOtester Engineering"
 branding:
   icon: "check-circle"
